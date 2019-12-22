@@ -2,15 +2,14 @@ package crudMVC.controller;
 
 import crudMVC.model.User;
 import crudMVC.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,6 +19,20 @@ public class RootController {
 
     public RootController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String loginPage() {
+        return "login";
+    }
+
+    @RequestMapping(value = "hello", method = RequestMethod.GET)
+    public String printWelcome(ModelMap model) {
+        List<String> messages = new ArrayList<>();
+        messages.add("Hello!");
+        messages.add("User");
+        model.addAttribute("messages", messages);
+        return "hello";
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
@@ -55,6 +68,7 @@ public class RootController {
         }
         return new RedirectView("users");
     }
+
     boolean isValidate(String s1, String s2, int i) {
         return !s1.isEmpty() && !s2.isEmpty() && i >= 0;
     }

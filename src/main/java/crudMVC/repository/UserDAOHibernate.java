@@ -1,7 +1,9 @@
 package crudMVC.repository;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import crudMVC.model.User;
@@ -42,5 +44,13 @@ public class UserDAOHibernate implements UserDao {
         if (persistentInstance != null) {
             session.delete(persistentInstance);
         }
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User where login = :userLogin", User.class);
+        query.setParameter("userLogin", login);
+        return query.getSingleResult();
+
     }
 }

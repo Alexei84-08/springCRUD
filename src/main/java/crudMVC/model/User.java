@@ -1,6 +1,7 @@
 package crudMVC.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,8 +20,10 @@ public class User {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "role")
-    private String role;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     @Column(name = "login", unique = true)
     private String login;
@@ -77,12 +80,12 @@ public class User {
         this.age = age;
     }
 
-    public String getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getLogin() {

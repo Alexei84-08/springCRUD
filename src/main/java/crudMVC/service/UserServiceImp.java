@@ -1,15 +1,19 @@
 package crudMVC.service;
 
+import crudMVC.model.AuthorizedUser;
 import crudMVC.model.User;
 import crudMVC.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImp implements UserService, UserDetailsService {
 
     @Autowired
     private UserDao userDao;
@@ -42,5 +46,15 @@ public class UserServiceImp implements UserService {
     @Override
     public void delete(long id) {
         userDao.delete(id);
+    }
+
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String login) {
+        User user = userDao.getUserByLogin(login);
+        if (user == null) {
+            throw new UsernameNotFoundException(login);
+        }
+        return new AuthorizedUser(user);
     }
 }

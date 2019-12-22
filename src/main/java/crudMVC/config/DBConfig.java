@@ -18,7 +18,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
-@ComponentScan(value = {"crudMVC.model", "crudMVC.repository", "crudMVC.service"})
+@ComponentScan(value = {"crudMVC.model", "crudMVC.repository", "crudMVC.service", "crudMVC.security"})
 //@ComponentScan(value = "crudMVC")
 public class DBConfig {
 

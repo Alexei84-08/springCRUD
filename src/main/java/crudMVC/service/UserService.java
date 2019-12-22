@@ -1,10 +1,7 @@
 package crudMVC.service;
 
 import crudMVC.model.User;
-import crudMVC.repository.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {

@@ -7,7 +7,7 @@
 </head>
 <body>
 <H2>Редактировать</H2>
-<form action="/users" method="POST">
+<form action="${pageContext.request.contextPath}/users" method="POST">
     <input type="hidden" name="id" value="${user.id}">
     <input type="hidden" name="action" value="update">
     <dl>
@@ -24,7 +24,6 @@
     </dl>
     <button type="submit">Сохранить</button>
     <input type="button" onclick="history.back();" value="Назад"/>
-
 </form>
 </body>
 </html>
