@@ -7,9 +7,7 @@
 </head>
 <body>
 <H2>Редактировать</H2>
-<form action="${pageContext.request.contextPath}/users" method="POST">
-    <input type="hidden" name="id" value="${user.id}">
-    <input type="hidden" name="action" value="update">
+<form action="${pageContext.request.contextPath}/users/update/${user.id}" method="POST">
     <dl>
         <dt>Имя</dt>
         <dd><input type="text" name="name" value="${user.name}"></dd>

@@ -26,16 +26,12 @@
             <td>${user.surname}</td>
             <td>${user.age}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/users" method="GET">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" name="id" value="${user.id}">
+                <form action="${pageContext.request.contextPath}/users/update/${user.id}" method="GET">
                     <input type="submit" value="Редактировать">
                 </form>
             </td>
             <td>
-                <form action="${pageContext.request.contextPath}/users" method="POST">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="${user.id}">
+                <form action="${pageContext.request.contextPath}/users/delete/${user.id}" method="POST">
                     <input type="submit" value="Удалить">
                 </form>
             </td>
@@ -43,7 +39,7 @@
     </c:forEach>
 </table>
 <h3>New User</h3>
-<form action="${pageContext.request.contextPath}/users" method="POST">
+<form action="${pageContext.request.contextPath}/users/add" method="POST">
     Регистрация:<br>
     Имя: <input type="text" name="name">
     Фамилия: <input type="text" name="surname">

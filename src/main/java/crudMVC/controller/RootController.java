@@ -21,12 +21,12 @@ public class RootController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping(value = "login")
     public String loginPage() {
         return "login";
     }
 
-    @RequestMapping(value = "hello", method = RequestMethod.GET)
+    @GetMapping(value = "hello")
     public String printWelcome(ModelMap model) {
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
@@ -35,38 +35,42 @@ public class RootController {
         return "hello";
     }
 
-    @RequestMapping(value = "users", method = RequestMethod.GET)
-    public ModelAndView getUsers(@RequestParam(value = "action", required = false) String action, @RequestParam(value = "id", required = false) Long id) {
-        if (action == null) {
-            List<User> users = userService.getAllUsers();
-            ModelAndView modelAndView = new ModelAndView("users");
-            modelAndView.addObject("users", users);
-            return modelAndView;
-        } else if (action.equals("update")) {
-            User user = userService.getUserById(id);
-            ModelAndView modelAndView = new ModelAndView("userEdit");
-            modelAndView.addObject("user", user);
-            return modelAndView;
-        }
-        return null;
+    @GetMapping(value = "users")
+    public ModelAndView getUsers() {
+        List<User> users = userService.getAllUsers();
+        ModelAndView modelAndView = new ModelAndView("users");
+        modelAndView.addObject("users", users);
+        return modelAndView;
     }
 
-    @RequestMapping(value = "users", method = RequestMethod.POST)
-    public View greetingSubmit(@RequestParam("action") String action, @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
-        switch (action) {
-            case "add":
-                if (isValidate(name, surname, age)) {
-                    userService.add(new User(name, surname, age));
-                }
-                break;
-            case "update":
-                userService.update(new User(id, name, surname, age));
-                break;
-            case "delete":
-                userService.delete(id);
-                break;
+    @GetMapping(value = "users/update/{id}")
+    public ModelAndView getUserUpdate(@PathVariable("id") long userId) {
+        User user = userService.getUserById(userId);
+        ModelAndView modelAndView = new ModelAndView("userEdit");
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
+    @PostMapping(value = "users/add")
+    public View addUser(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
+        if (isValidate(name, surname, age)) {
+            userService.add(new User(name, surname, age));
         }
-        return new RedirectView("users");
+        return new RedirectView("/users");
+    }
+
+    @PostMapping(value = "users/update/{id}")
+    public View updateUser(@PathVariable("id") long userId, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
+        if (isValidate(name, surname, age)) {
+            userService.update(new User(userId, name, surname, age));
+        }
+        return new RedirectView("/users");
+    }
+
+    @PostMapping(value = "users/delete/{id}")
+    public View deleteUser(@PathVariable("id") long userId) {
+        userService.delete(userId);
+        return new RedirectView("/users");
     }
 
     boolean isValidate(String s1, String s2, int i) {
