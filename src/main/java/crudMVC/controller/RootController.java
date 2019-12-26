@@ -15,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class RootController {
+
     private final UserService userService;
 
     public RootController(UserService userService) {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>users</title>
+</head>
+<body>
+<a th:insert="~{logout :: logout}"></a>
+<br>
+<br>
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.age}"></td>
+        <td>
+            <form th:action="@{/users/update/{id}(id=${user.id})}" th:method="get">
+                <input type="submit" value="Редактировать">
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/users/delete/{id}(id=${user.id})}" th:method="post">
+                <input type="submit" value="Удалить">
+            </form>
+        </td>
+    </tr>
+    </th:forEach>
+</table>
+<h3>New User</h3>
+<form th:action="@{/users/add}" th:method="post">
+    Регистрация:<br>
+    Имя: <input type="text" name="name">
+    Фамилия: <input type="text" name="surname">
+    Возраст: <input type="number" name="age">
+    <input type="hidden" name="action" value="add">
+    <input type="submit" value="Добавить">
+</form>
+</body>
+</html>

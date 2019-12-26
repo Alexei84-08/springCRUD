@@ -1,20 +1,18 @@
 package crudMVC.repository;
 
 import crudMVC.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDao {
-    void add(User user);
+public interface UserDao extends JpaRepository<User, Long> {
+    User save(User user);
 
-    User get(long id);
+    User getById(long id);
 
-    List<User> getAll();
+    List<User> findAll();
 
-    void update(User user);
-
-    void delete(long id);
+    void deleteById(long id);
 
     User getUserByLogin(String login);
 }

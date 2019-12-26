@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<H2>Редактировать</H2>
+<form th:method="post" th:action="@{/users/update/{id}(id=${user.id})}">
+    <dl>
+        <dt>Имя</dt>
+        <dd><input th:type="text" th:name="name" th:value="${user.name}"></dd>
+    </dl>
+    <dl>
+        <dt>Фамилия</dt>
+        <dd><input th:type="text" th:name="surname" th:value="${user.surname}"></dd>
+    </dl>
+    <dl>
+        <dt>Возраст</dt>
+        <dd><input th:type="number" th:name="age" th:value="${user.age}"></dd>
+    </dl>
+    <button type="submit">Сохранить</button>
+    <input type="button" onclick="history.back();" value="Назад"/>
+</form>
+</body>
+</html>
