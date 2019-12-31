@@ -9,15 +9,15 @@
 <form th:method="post" th:action="@{/users/update/{id}(id=${user.id})}">
     <dl>
         <dt>Имя</dt>
-        <dd><input th:type="text" th:name="name" th:value="${user.name}"></dd>
+        <dd><input th:type="text" th:name="name" th:value="${user.login}"></dd>
     </dl>
     <dl>
         <dt>Фамилия</dt>
-        <dd><input th:type="text" th:name="surname" th:value="${user.surname}"></dd>
+        <dd><input th:type="text" th:name="surname" th:value="${user.password}"></dd>
     </dl>
     <dl>
         <dt>Возраст</dt>
-        <dd><input th:type="number" th:name="age" th:value="${user.age}"></dd>
+        <dd><input th:type="number" th:name="age" th:value="${user.email}"></dd>
     </dl>
     <button type="submit">Сохранить</button>
     <input type="button" onclick="history.back();" value="Назад"/>

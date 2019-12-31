@@ -1,7 +1,9 @@
 package crudMVC.controller;
 
+import crudMVC.model.Role;
 import crudMVC.model.User;
 import crudMVC.service.UserService;
+import javafx.print.Collation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -20,6 +21,11 @@ public class RootController {
 
     public RootController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public View test() {
+        return new RedirectView("/users");
     }
 
     @GetMapping(value = "login")
@@ -34,6 +40,11 @@ public class RootController {
         messages.add("User");
         model.addAttribute("messages", messages);
         return "hello";
+    }
+
+    @GetMapping(value = "add")
+    public String getAddUser() {
+        return "addUser";
     }
 
     @GetMapping(value = "users")
@@ -53,20 +64,45 @@ public class RootController {
     }
 
     @PostMapping(value = "users/add")
-    public View addUser(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
-        if (isValidate(name, surname, age)) {
-            userService.add(new User(name, surname, age));
+    public View addUser(@RequestParam(value = "login") String login,
+                        @RequestParam(value = "password") String password,
+                        @RequestParam(value = "role") String role,
+                        @RequestParam(value = "email") String email) {
+        if (isValidate(login, password, email)) {
+            Set<Role> roleSet = new HashSet<>();
+            roleSet.add(new Role(role));
+            userService.add(new User(login, password, email,roleSet));
         }
         return new RedirectView("/users");
     }
 
     @PostMapping(value = "users/update/{id}")
-    public View updateUser(@PathVariable("id") long userId, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "age", required = false) Integer age) {
-        if (isValidate(name, surname, age)) {
-            userService.update(new User(userId, name, surname, age));
+    public View updateUser(@PathVariable("id") long userId,
+                           @RequestParam(value = "login") String login,
+                           @RequestParam(value = "password") String password,
+                           @RequestParam(value = "role") String role,
+                           @RequestParam(value = "email") String email) {
+        if (isValidate(login, password, email)) {
+            Set<Role> roleSet = new HashSet<>();
+            roleSet.add(new Role(role));
+            userService.update(new User(userId, login, password, email, roleSet));
         }
         return new RedirectView("/users");
     }
+
+//    @PostMapping(value = "users/update/")
+//    public View updateUser(@RequestParam(value = "id") long userId,
+//                           @RequestParam(value = "login") String login,
+//                           @RequestParam(value = "password") String password,
+//                           @RequestParam(value = "role") String role,
+//                           @RequestParam(value = "email") String email) {
+//        if (isValidate(login, password, email)) {
+//            Set<Role> roleSet = new HashSet<>();
+//            roleSet.add(new Role(role));
+//            userService.update(new User(userId, login, password, email, roleSet));
+//        }
+//        return new RedirectView("/users");
+//    }
 
     @PostMapping(value = "users/delete/{id}")
     public View deleteUser(@PathVariable("id") long userId) {
@@ -74,7 +110,7 @@ public class RootController {
         return new RedirectView("/users");
     }
 
-    boolean isValidate(String s1, String s2, int i) {
-        return !s1.isEmpty() && !s2.isEmpty() && i >= 0;
+    boolean isValidate(String s1, String s2, String s3) {
+        return !s1.isEmpty() && !s2.isEmpty() && !s3.isEmpty();
     }
 }
