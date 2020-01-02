@@ -43,7 +43,7 @@
         <div class="col-sm-9">
             <div class="row-fluid hero-unit">
                 <h2>Admin panel</h2>
-                <ul class="nav">
+                <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" href="/">Users table</a>
                     </li>
@@ -75,19 +75,11 @@
                                     <td th:text="${user.login}"></td>
                                     <td th:text="${user.password}"></td>
                                     <td th:text="${user.email}"></td>
-                                    <!--                            <td>-->
-                                    <!--                                <button type="button" class="btn btn-primary" data-toggle="modal"-->
-                                    <!--                                        data-target="#myModal">Редактировать-->
-                                    <!--                                </button>-->
-                                    <!--                                <div class="modal fade" id="myModal">-->
-
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
                                                 th:data-target="'#modal'+${user.id}">Редактировать
                                         </button>
                                         <div class="modal fade" th:attr="id='modal'+${user.id}" id="myModal">
-
-
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
